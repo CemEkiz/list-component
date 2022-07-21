@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import Fruit from './components/Fruit';
 
 function App() {
 	//// STATE (état, donnée)
 	const [fruits, setFruits] = useState([
-		{ id: 1, name: 'Abricot' },
+		{ id: 1, name: 'Pastèque' },
 		{ id: 2, name: 'Banane' },
 		{ id: 3, name: 'Cerise' },
 	]);
@@ -51,10 +52,7 @@ function App() {
 
 			<ul>
 				{fruits.map((fruit) => (
-					<li key={fruit.id}>
-						{fruit.name}{' '}
-						<button onClick={() => handleDelete(fruit.id)}>X</button>
-					</li>
+					<Fruit fruitInfo={fruit} onFruitDelete={handleDelete} />
 				))}
 			</ul>
 
