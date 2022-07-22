@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Fruit from './components/Fruit';
+import FruitForm from './components/FruitForm';
 
 function App() {
 	//// STATE (état, donnée)
@@ -8,8 +9,6 @@ function App() {
 		{ id: 2, name: 'Banane' },
 		{ id: 3, name: 'Cerise' },
 	]);
-
-	const [newFruit, setNewFruit] = useState('');
 
 	//// BEHAVIOR (comportement)
 	const handleDelete = (id) => {
@@ -23,26 +22,19 @@ function App() {
 		setFruits(fruitsCopyUpdated);
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-
+	const handleAdd = (fruitToAdd) => {
 		// 1. Copier le state
 		const fruitsCopy = [...fruits];
 
 		// 2. Manipuler le state
-		const id = new Date().getTime();
-		const name = newFruit;
-		// const fruitToAdd = { id: id, name: name };
-		const fruitToAdd = { id, name };
 		fruitsCopy.push(fruitToAdd);
 
 		// 3. Modifier le state avec son setter
 		setFruits(fruitsCopy);
-		setNewFruit('');
 	};
 
-	const handleChange = (e) => {
-		setNewFruit(e.target.value);
+	const displayFavFruit = (favFruit) => {
+		alert(`J'aime trop ce fruit : ${favFruit}`);
 	};
 
 	//// RENDER (affichage, rendu)
@@ -52,19 +44,14 @@ function App() {
 
 			<ul>
 				{fruits.map((fruit) => (
-					<Fruit fruitInfo={fruit} onFruitDelete={handleDelete} />
+					<Fruit
+						fruitInfo={fruit}
+						onClick={() => displayFavFruit(fruit.name)}
+						key={fruit.id}
+					/>
 				))}
 			</ul>
-
-			<form action='submit' onSubmit={handleSubmit}>
-				<input
-					value={newFruit}
-					type='text'
-					placeholder='Ajouter un fruit'
-					onChange={handleChange}
-				/>
-				<button>Ajouter</button>
-			</form>
+			<FruitForm handleAdd={handleAdd} />
 		</div>
 	);
 }
